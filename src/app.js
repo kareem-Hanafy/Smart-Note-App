@@ -4,6 +4,8 @@ const createError = require('http-errors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const { createHandler } = require('graphql-http/lib/use/express');
+const notesSchema = require('./modules/notes/notes.graphql');
 require('dotenv').config();
 
 const app = express();
@@ -31,6 +33,20 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/api/auth', require('./modules/auth/auth.routes'));
 app.use('/api/notes', require('./modules/notes/notes.routes'));
+
+// GraphQL endpoint
+app.all('/graphql', (req, res, next) => {
+    // Add authentication context for GraphQL
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        // For GraphQL, we'll handle auth in the resolver
+        return next();
+    }
+    next();
+}, createHandler({
+    schema: notesSchema,
+    context: (req) => ({ user: req.user })
+}));
 
 // Health check
 app.get('/health', (req, res) => {

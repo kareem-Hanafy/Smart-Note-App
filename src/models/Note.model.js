@@ -24,4 +24,10 @@ noteSchema.index({ ownerId: 1 });
 // Text index for searching notes by title
 noteSchema.index({ title: 'text' });
 
+// Compound index for efficient filtering by owner and creation date
+noteSchema.index({ ownerId: 1, createdAt: -1 });
+
+// Index for date range queries
+noteSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('Note', noteSchema);

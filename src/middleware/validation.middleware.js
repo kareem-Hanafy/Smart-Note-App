@@ -206,15 +206,48 @@ const updateNoteSchema = {
 };
 
 /**
- * Simple validation schema for searching notes
+ * Validation schema for getting notes with GraphQL filters
  */
 const searchNotesSchema = {
     query: Joi.object({
-        search: Joi.string()
+        userId: Joi.string()
+            .pattern(/^[0-9a-fA-F]{24}$/)
             .optional()
             .messages({
-                'string.empty': 'Search query cannot be empty'
-            })
+                'string.pattern.base': 'Invalid user ID format'
+            }),
+        title: Joi.string()
+            .optional(),
+        createdFrom: Joi.date()
+            .iso()
+            .optional()
+            .messages({
+                'date.format': 'Created from date must be in ISO format'
+            }),
+        createdTo: Joi.date()
+            .iso()
+            .optional()
+            .messages({
+                'date.format': 'Created to date must be in ISO format'
+            }),
+        page: Joi.number()
+            .integer()
+            .min(1)
+            .optional()
+            .messages({
+                'number.min': 'Page must be at least 1'
+            }),
+        limit: Joi.number()
+            .integer()
+            .min(1)
+            .max(100)
+            .optional()
+            .messages({
+                'number.min': 'Limit must be at least 1',
+                'number.max': 'Limit cannot exceed 100'
+            }),
+        search: Joi.string()
+            .optional()
     })
 };
 
