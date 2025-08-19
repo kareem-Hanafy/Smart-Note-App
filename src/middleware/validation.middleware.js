@@ -68,7 +68,7 @@ const formatJoiError = (joiError, location) => {
 const registerSchema = {
     body: Joi.object({
         email: Joi.string()
-            .email({ minDomainSegments: 2, tlds: { allow: true } })
+            .email()
             .required()
             .messages({
                 'string.email': 'Please provide a valid email address',
@@ -76,34 +76,10 @@ const registerSchema = {
             }),
         password: Joi.string()
             .min(6)
-            .max(128)
-            .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)'))
             .required()
             .messages({
                 'string.min': 'Password must be at least 6 characters long',
-                'string.max': 'Password cannot exceed 128 characters',
-                'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
                 'any.required': 'Password is required'
-            }),
-        firstName: Joi.string()
-            .min(2)
-            .max(50)
-            .pattern(/^[a-zA-Z\s]+$/)
-            .optional()
-            .messages({
-                'string.min': 'First name must be at least 2 characters long',
-                'string.max': 'First name cannot exceed 50 characters',
-                'string.pattern.base': 'First name can only contain letters and spaces'
-            }),
-        lastName: Joi.string()
-            .min(2)
-            .max(50)
-            .pattern(/^[a-zA-Z\s]+$/)
-            .optional()
-            .messages({
-                'string.min': 'Last name must be at least 2 characters long',
-                'string.max': 'Last name cannot exceed 50 characters',
-                'string.pattern.base': 'Last name can only contain letters and spaces'
             })
     })
 };
@@ -194,29 +170,10 @@ const createNoteSchema = {
                 'any.required': 'Title is required'
             }),
         content: Joi.string()
-            .max(10000)
             .required()
             .messages({
-                'string.max': 'Content cannot exceed 10,000 characters',
                 'any.required': 'Content is required'
-            }),
-        ownerId: Joi.string()
-            .pattern(/^[0-9a-fA-F]{24}$/)
-            .required()
-            .messages({
-                'string.pattern.base': 'Invalid owner ID format',
-                'any.required': 'Owner ID is required'
-            }),
-        tags: Joi.array()
-            .items(Joi.string().min(1).max(50))
-            .max(10)
-            .optional()
-            .messages({
-                'array.max': 'Cannot have more than 10 tags'
-            }),
-        isPrivate: Joi.boolean()
-            .default(false)
-            .optional()
+            })
     })
 };
 
@@ -235,19 +192,6 @@ const updateNoteSchema = {
                 'string.max': 'Title cannot exceed 200 characters'
             }),
         content: Joi.string()
-            .max(10000)
-            .optional()
-            .messages({
-                'string.max': 'Content cannot exceed 10,000 characters'
-            }),
-        tags: Joi.array()
-            .items(Joi.string().min(1).max(50))
-            .max(10)
-            .optional()
-            .messages({
-                'array.max': 'Cannot have more than 10 tags'
-            }),
-        isPrivate: Joi.boolean()
             .optional()
     }).min(1), // At least one field must be provided
     params: Joi.object({
@@ -262,64 +206,15 @@ const updateNoteSchema = {
 };
 
 /**
- * Validation schema for getting notes with filters
+ * Simple validation schema for searching notes
  */
-const getNotesSchema = {
+const searchNotesSchema = {
     query: Joi.object({
-        userId: Joi.string()
-            .pattern(/^[0-9a-fA-F]{24}$/)
+        search: Joi.string()
             .optional()
             .messages({
-                'string.pattern.base': 'Invalid user ID format'
-            }),
-        title: Joi.string()
-            .min(1)
-            .max(200)
-            .optional()
-            .messages({
-                'string.min': 'Title filter cannot be empty',
-                'string.max': 'Title filter cannot exceed 200 characters'
-            }),
-        createdFrom: Joi.date()
-            .iso()
-            .optional()
-            .messages({
-                'date.format': 'Created from date must be in ISO format'
-            }),
-        createdTo: Joi.date()
-            .iso()
-            .optional()
-            .messages({
-                'date.format': 'Created to date must be in ISO format'
-            }),
-        tags: Joi.string()
-            .optional(),
-        page: Joi.number()
-            .integer()
-            .min(1)
-            .default(1)
-            .optional()
-            .messages({
-                'number.min': 'Page number must be at least 1'
-            }),
-        limit: Joi.number()
-            .integer()
-            .min(1)
-            .max(100)
-            .default(10)
-            .optional()
-            .messages({
-                'number.min': 'Limit must be at least 1',
-                'number.max': 'Limit cannot exceed 100'
-            }),
-        sortBy: Joi.string()
-            .valid('createdAt', 'updatedAt', 'title')
-            .default('createdAt')
-            .optional(),
-        sortOrder: Joi.string()
-            .valid('asc', 'desc')
-            .default('desc')
-            .optional()
+                'string.empty': 'Search query cannot be empty'
+            })
     })
 };
 
@@ -370,7 +265,6 @@ const sanitizeInput = (req, res, next) => {
 
 module.exports = {
     validate,
-    formatJoiError,
     sanitizeInput,
     // Schema exports
     registerSchema,
@@ -379,6 +273,6 @@ module.exports = {
     resetPasswordSchema,
     createNoteSchema,
     updateNoteSchema,
-    getNotesSchema,
+    searchNotesSchema,
     objectIdParamSchema
 };
