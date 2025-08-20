@@ -9,7 +9,7 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "hossamshafik55@gmail.com",
   "password": "123456"
 }
 
@@ -20,7 +20,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "hossamshafik55@gmail.com",
   "password": "123456"
 }
 
@@ -40,7 +40,7 @@ POST http://localhost:3000/api/auth/forget-password
 Content-Type: application/json
 
 {
-  "email": "user@example.com"
+  "email": "hossamshafik55@gmail.com"
 }
 
 ###
@@ -50,9 +50,9 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
-  "otp": "123456",
-  "newPassword": "newpassword123"
+  "email": "hossamshafik55@gmail.com",
+  "otp": "959208",
+  "newPassword": "654321"
 }
 
 ###
@@ -62,7 +62,7 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "hossamshafik55@gmail.com",
   "otp": "000000",
   "newPassword": "newpassword123"
 }
@@ -74,7 +74,7 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "hossamshafik55@gmail.com",
   "otp": "123456",
   "newPassword": "newpassword123"
 }

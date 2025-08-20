@@ -216,6 +216,7 @@ const resetPassword = async (req, res, next) => {
             type: 'reset',
             expiresAt: { $gt: new Date() }
         });
+        console.log("tokenRecord:", tokenRecord);
 
         if (!tokenRecord) {
             return next(createError(400, 'Invalid or expired OTP'));

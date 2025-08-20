@@ -33,10 +33,11 @@ const validate = (schema) => {
                 validationErrors.push(...formatJoiError(error, 'query'));
             }
         }
+        console.log("Validation errors:", validationErrors);
 
         // If validation errors exist, return them
         if (validationErrors.length > 0) {
-            const error = createError(400, 'Validation failed');
+            const error = createError(400, validationErrors[0].message);
             error.errors = validationErrors;
             return next(error);
         }
@@ -142,14 +143,9 @@ const resetPasswordSchema = {
             }),
         newPassword: Joi.string()
             .min(6)
-            .max(128)
-            .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)'))
             .required()
             .messages({
-                'string.min': 'Password must be at least 6 characters long',
-                'string.max': 'Password cannot exceed 128 characters',
-                'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
-                'any.required': 'New password is required'
+                'string.min': 'Password must be at least 6 characters long', 'any.required': 'New password is required'
             })
     })
 };
