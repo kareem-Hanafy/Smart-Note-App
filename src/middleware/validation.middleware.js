@@ -33,7 +33,6 @@ const validate = (schema) => {
                 validationErrors.push(...formatJoiError(error, 'query'));
             }
         }
-        console.log("Validation errors:", validationErrors);
 
         // If validation errors exist, return them
         if (validationErrors.length > 0) {

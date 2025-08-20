@@ -45,18 +45,27 @@ app.use('/api/auth', require('./modules/auth/auth.routes'));
 app.use('/api/notes', require('./modules/notes/notes.routes'));
 
 // GraphQL endpoint
-app.all('/graphql', (req, res, next) => {
-    // Add authentication context for GraphQL
-    const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        // For GraphQL, we'll handle auth in the resolver
-        return next();
-    }
-    next();
-}, createHandler({
-    schema: notesSchema,
-    context: (req) => ({ user: req.user })
-}));
+const { authenticate } = require('./middleware/auth.middleware');
+
+// Test endpoint to verify authentication
+app.get('/test-auth', authenticate, (req, res) => {
+    res.json({
+        message: 'Authentication working',
+        user: req.user ? { id: req.user._id, email: req.user.email } : null
+    });
+});
+
+// GraphQL endpoint with authentication
+app.all('/graphql', authenticate, (req, res) => {
+    const handler = createHandler({
+        schema: notesSchema,
+        context: () => {
+            return { user: req.user };
+        }
+    });
+
+    handler(req, res);
+});
 
 // Health check
 app.get('/health', (req, res) => {

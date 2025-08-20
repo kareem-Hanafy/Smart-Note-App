@@ -9,20 +9,22 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com",
+  "email": "kareemHanafydev@gmail.com",
   "password": "123456"
 }
 
 ###
 
-### 2. Login User
+### 2. Login User (Get Fresh Token)
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com",
+  "email": "kareemhanafydev@gmail.com",
   "password": "123456"
 }
+
+# Copy the token from the response and use it in the GraphQL query below
 
 ###
 
@@ -40,7 +42,7 @@ POST http://localhost:3000/api/auth/forget-password
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com"
+  "email": "kareemHanafydev@gmail.com"
 }
 
 ###
@@ -50,7 +52,7 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com",
+  "email": "kareemHanafydev@gmail.com",
   "otp": "959208",
   "newPassword": "654321"
 }
@@ -62,7 +64,7 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com",
+  "email": "kareemHanafydev@gmail.com",
   "otp": "000000",
   "newPassword": "newpassword123"
 }
@@ -74,7 +76,7 @@ POST http://localhost:3000/api/auth/reset-password
 Content-Type: application/json
 
 {
-  "email": "hossamshafik55@gmail.com",
+  "email": "kareemHanafydev@gmail.com",
   "otp": "123456",
   "newPassword": "newpassword123"
 }
@@ -83,7 +85,7 @@ Content-Type: application/json
 
 ### 8. Logout
 POST http://localhost:3000/api/auth/logout
-Authorization: Bearer YOUR_JWT_TOKEN
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImVtYWlsIjoia2FyZWVtaGFuYWZ5ZGV2QGdtYWlsLmNvbSJ9LCJpYXQiOjE3NTU3MDMzMDQsImV4cCI6MTc1NTc4OTcwNCwiYXVkIjoic21hcnQtbm90ZS1hcHAtdXNlcnMiLCJpc3MiOiJzbWFydC1ub3RlLWFwcCIsInN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImp0aSI6ImZmOTExNzdhLTdhMDItNDYxOS1iNjYwLTE3YmQzNWVmMDlhMiJ9.c8u0rWNROr_oRx_4MbB9YrBvjCJu3EMfpJ3Hrco-51di5axiTJuCvv0-0YsNhM5Ewin5NB5xf7SjhLVaE0DnkhQefPZGsKjA2BuB9PvwstauK1wKTJ9Xzw_MH1BcgNIhyidkOZjx2I5y_wXRrUiDvjnMG9u-LL72h3fFnpH5A_VCaROTiEaZnOzfOZVHx576IoAoGDOA5a8KoV23QpSzUxAUqIKZcM1d94pE8dHflIOzAzC5qLbB5xtRVk1H0I8oA4KWLgSdMrmzydWBz32mSEHI13ZtdD0mTER7xhezK3UZVF5pWjBpMqyjPHDnfwMLvTtxdNm2NbOUaCRddEtm3Q
 
 ###
 
@@ -93,19 +95,19 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 ### 1. Create Note
 POST http://localhost:3000/api/notes
-Authorization: Bearer YOUR_JWT_TOKEN
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImVtYWlsIjoia2FyZWVtaGFuYWZ5ZGV2QGdtYWlsLmNvbSJ9LCJpYXQiOjE3NTU3MDMzMDQsImV4cCI6MTc1NTc4OTcwNCwiYXVkIjoic21hcnQtbm90ZS1hcHAtdXNlcnMiLCJpc3MiOiJzbWFydC1ub3RlLWFwcCIsInN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImp0aSI6ImZmOTExNzdhLTdhMDItNDYxOS1iNjYwLTE3YmQzNWVmMDlhMiJ9.c8u0rWNROr_oRx_4MbB9YrBvjCJu3EMfpJ3Hrco-51di5axiTJuCvv0-0YsNhM5Ewin5NB5xf7SjhLVaE0DnkhQefPZGsKjA2BuB9PvwstauK1wKTJ9Xzw_MH1BcgNIhyidkOZjx2I5y_wXRrUiDvjnMG9u-LL72h3fFnpH5A_VCaROTiEaZnOzfOZVHx576IoAoGDOA5a8KoV23QpSzUxAUqIKZcM1d94pE8dHflIOzAzC5qLbB5xtRVk1H0I8oA4KWLgSdMrmzydWBz32mSEHI13ZtdD0mTER7xhezK3UZVF5pWjBpMqyjPHDnfwMLvTtxdNm2NbOUaCRddEtm3Q
 Content-Type: application/json
 
 {
-  "title": "Meeting",
+  "title": "Meeting 4",
   "content": "Today we discussed..."
 }
 
 ###
 
 ### 2. Get All Notes with GraphQL Filters
-GET http://localhost:3000/api/notes?title=meeting&page=1&limit=10&createdFrom=2023-01-01&createdTo=2023-12-31
-Authorization: Bearer YOUR_JWT_TOKEN
+GET http://localhost:3000/api/notes?title=meeting&page=1&limit=10&createdFrom=2023-01-01
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImVtYWlsIjoia2FyZWVtaGFuYWZ5ZGV2QGdtYWlsLmNvbSJ9LCJpYXQiOjE3NTU3MDMzMDQsImV4cCI6MTc1NTc4OTcwNCwiYXVkIjoic21hcnQtbm90ZS1hcHAtdXNlcnMiLCJpc3MiOiJzbWFydC1ub3RlLWFwcCIsInN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImp0aSI6ImZmOTExNzdhLTdhMDItNDYxOS1iNjYwLTE3YmQzNWVmMDlhMiJ9.c8u0rWNROr_oRx_4MbB9YrBvjCJu3EMfpJ3Hrco-51di5axiTJuCvv0-0YsNhM5Ewin5NB5xf7SjhLVaE0DnkhQefPZGsKjA2BuB9PvwstauK1wKTJ9Xzw_MH1BcgNIhyidkOZjx2I5y_wXRrUiDvjnMG9u-LL72h3fFnpH5A_VCaROTiEaZnOzfOZVHx576IoAoGDOA5a8KoV23QpSzUxAUqIKZcM1d94pE8dHflIOzAzC5qLbB5xtRVk1H0I8oA4KWLgSdMrmzydWBz32mSEHI13ZtdD0mTER7xhezK3UZVF5pWjBpMqyjPHDnfwMLvTtxdNm2NbOUaCRddEtm3Q
 
 ###
 
@@ -140,31 +142,29 @@ Authorization: Bearer YOUR_JWT_TOKEN
 ###
 
 # ========================================
+# TEST AUTHENTICATION
+# ========================================
+
+### Test Authentication Endpoint
+GET http://localhost:3000/test-auth
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImVtYWlsIjoia2FyZWVtaGFuYWZ5ZGV2QGdtYWlsLmNvbSJ9LCJpYXQiOjE3NTU3MDM0ODMsImV4cCI6MTc1NTc4OTg4MywiYXVkIjoic21hcnQtbm90ZS1hcHAtdXNlcnMiLCJpc3MiOiJzbWFydC1ub3RlLWFwcCIsInN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImp0aSI6ImEzNWEwMjdkLThiODEtNDZiOS1iMjRlLTI3OGM0MGJkNTY1MCJ9.SXEK4n6_68TwprIuCteg4ZFhQuZUOq-Etrgul-Vh3ZGFMfibd2m5tn57VqpX91Sj6HCiaX2ehtvLFqPyVc7VTPDn9SXy_s6XbwIrYxjop2R8s7n6595QVY88ppAMKjF3BkP4IMjK3Nh8mbnYQ82_IeTqQi_BfZt-txDqce3k9i1vH56F2CeuZD-fEj0NkBbpU7IJ8OR1htoDOmSONuC7JASmW5ZMRX_lxFGeZrH3dnPM6cR_JaO4RQi69CfbFqLcnMWipcR8XNL4cL-0OiBIr48hPl3s3uJV-VYa4UhWODy1ujuPFI8JAOeJBO54CnyhnNCToZ1QN3fjM90wCFdGCg
+
+###
+
+# ========================================
 # GRAPHQL ENDPOINT
 # ========================================
 
 ### Direct GraphQL Query
 POST http://localhost:3000/graphql
-Authorization: Bearer YOUR_JWT_TOKEN
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImVtYWlsIjoia2FyZWVtaGFuYWZ5ZGV2QGdtYWlsLmNvbSJ9LCJpYXQiOjE3NTU3MDM0ODMsImV4cCI6MTc1NTc4OTg4MywiYXVkIjoic21hcnQtbm90ZS1hcHAtdXNlcnMiLCJpc3MiOiJzbWFydC1ub3RlLWFwcCIsInN1YiI6IjY4YTVlN2ZiZDVhMTg2MzFkZTY4YTc3ZCIsImp0aSI6ImEzNWEwMjdkLThiODEtNDZiOS1iMjRlLTI3OGM0MGJkNTY1MCJ9.SXEK4n6_68TwprIuCteg4ZFhQuZUOq-Etrgul-Vh3ZGFMfibd2m5tn57VqpX91Sj6HCiaX2ehtvLFqPyVc7VTPDn9SXy_s6XbwIrYxjop2R8s7n6595QVY88ppAMKjF3BkP4IMjK3Nh8mbnYQ82_IeTqQi_BfZt-txDqce3k9i1vH56F2CeuZD-fEj0NkBbpU7IJ8OR1htoDOmSONuC7JASmW5ZMRX_lxFGeZrH3dnPM6cR_JaO4RQi69CfbFqLcnMWipcR8XNL4cL-0OiBIr48hPl3s3uJV-VYa4UhWODy1ujuPFI8JAOeJBO54CnyhnNCToZ1QN3fjM90wCFdGCg
 Content-Type: application/json
 
 {
-  "query": "query GetNotes($title: String, $page: Int, $limit: Int) { notes(title: $title, page: $page, limit: $limit) { notes { id title content owner { id email isVerified } createdAt updatedAt } totalCount currentPage totalPages hasNextPage hasPrevPage } }",
+  "query": "query GetNotes($title: String, $page: Int, $limit: Int) { notes(title: $title, page: $page, limit: $limit) { notes { id title content owner { id email } createdAt updatedAt } totalCount currentPage totalPages hasNextPage hasPrevPage } }",
   "variables": {
     "title": "meeting",
     "page": 1,
     "limit": 10
   }
 }
-
-###
-
-# ========================================
-# TESTING NOTES
-# ========================================
-
-# 1. Replace YOUR_JWT_TOKEN with the actual token received from login
-# 2. Replace 60d5ecb74b24a1234567890a with actual note IDs
-# 3. For file upload, replace [your-image-file] with actual file path
-# 4. Use ### to separate requests in most HTTP client extensions
-# 5. You can click the "Send Request" button above each request to test it
