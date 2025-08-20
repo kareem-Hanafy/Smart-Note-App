@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const User = require('../../models/User.model');
 const Token = require('../../models/Token.model');
 const jwtConfig = require('../../config/jwt.config');
-const { sendOTPEmail } = require('../../config/email.config');
+const { sendOTPEmail, verifyEmailConfig } = require('../../config/email.config');
 
 /**
  * Register new user
@@ -146,6 +146,18 @@ const forgetPassword = async (req, res, next) => {
             return next(createError(404, 'User not found'));
         }
 
+        // Check for existing unexpired OTP tokens
+        const existingToken = await Token.findOne({
+            userId: user._id,
+            type: 'reset',
+            expiresAt: { $gt: new Date() }
+        });
+
+        if (existingToken) {
+            const timeLeft = Math.ceil((existingToken.expiresAt - new Date()) / 1000 / 60);
+            return next(createError(429, `Please wait ${timeLeft} minutes before requesting another OTP`));
+        }
+
         // Generate OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
@@ -164,13 +176,15 @@ const forgetPassword = async (req, res, next) => {
         try {
             await sendOTPEmail(email, otp);
         } catch (emailError) {
+            // Clean up the token if email fails
+            await Token.findByIdAndDelete(token._id);
             console.error('Failed to send OTP email:', emailError.message);
-            return next(createError(500, 'Failed to send OTP email'));
+            return next(createError(500, 'Failed to send OTP email. Please try again later.'));
         }
 
         res.json({
             success: true,
-            message: 'OTP sent to your email address'
+            message: 'OTP sent to your email address. Valid for 10 minutes.'
         });
     } catch (error) {
         next(error);
@@ -183,6 +197,11 @@ const forgetPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
     try {
         const { email, otp, newPassword } = req.body;
+
+        // Validate new password
+        if (!newPassword || newPassword.length < 6) {
+            return next(createError(400, 'Password must be at least 6 characters long'));
+        }
 
         // Find user
         const user = await User.findOne({ email });
@@ -200,6 +219,12 @@ const resetPassword = async (req, res, next) => {
 
         if (!tokenRecord) {
             return next(createError(400, 'Invalid or expired OTP'));
+        }
+
+        // Check if new password is same as current password
+        const isSamePassword = await bcrypt.compare(newPassword, user.password);
+        if (isSamePassword) {
+            return next(createError(400, 'New password must be different from current password'));
         }
 
         // Hash new password

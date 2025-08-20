@@ -14,6 +14,16 @@ const app = express();
 const { connectDB } = require('./config/database');
 connectDB();
 
+// Verify email configuration
+const { verifyEmailConfig } = require('./config/email.config');
+verifyEmailConfig().then(isConfigured => {
+    if (isConfigured) {
+        console.log('📧 Email service is configured and ready');
+    } else {
+        console.log('⚠️  Email service is not configured - password reset will not work');
+    }
+});
+
 // Basic security and rate limiting
 app.use(helmet());
 app.use(rateLimit({

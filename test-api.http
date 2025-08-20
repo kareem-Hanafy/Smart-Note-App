@@ -1,0 +1,170 @@
+### Smart Note App API Tests
+
+# ========================================
+# AUTHENTICATION ENDPOINTS
+# ========================================
+
+### 1. Register User
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456"
+}
+
+###
+
+### 2. Login User
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456"
+}
+
+###
+
+### 3. Upload Profile Picture
+PATCH http://localhost:3000/api/auth/upload-profile-pic
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: multipart/form-data
+
+file: [your-image-file]
+
+###
+
+### 4. Forgot Password (Send OTP)
+POST http://localhost:3000/api/auth/forget-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+###
+
+### 5. Reset Password (Use OTP from email)
+POST http://localhost:3000/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otp": "123456",
+  "newPassword": "newpassword123"
+}
+
+###
+
+### 6. Test Invalid OTP
+POST http://localhost:3000/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otp": "000000",
+  "newPassword": "newpassword123"
+}
+
+###
+
+### 7. Test Expired OTP (wait 10+ minutes after step 4)
+POST http://localhost:3000/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otp": "123456",
+  "newPassword": "newpassword123"
+}
+
+###
+
+### 8. Logout
+POST http://localhost:3000/api/auth/logout
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+# ========================================
+# NOTES ENDPOINTS
+# ========================================
+
+### 1. Create Note
+POST http://localhost:3000/api/notes
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Meeting",
+  "content": "Today we discussed..."
+}
+
+###
+
+### 2. Get All Notes with GraphQL Filters
+GET http://localhost:3000/api/notes?title=meeting&page=1&limit=10&createdFrom=2023-01-01&createdTo=2023-12-31
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+### 3. Search Notes
+GET http://localhost:3000/api/notes/search?search=meeting
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+### 4. Get Note by ID
+GET http://localhost:3000/api/notes/60d5ecb74b24a1234567890a
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+### 5. Update Note
+PUT http://localhost:3000/api/notes/60d5ecb74b24a1234567890a
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Updated Meeting",
+  "content": "Updated content..."
+}
+
+###
+
+### 6. Delete Note
+DELETE http://localhost:3000/api/notes/60d5ecb74b24a1234567890a
+Authorization: Bearer YOUR_JWT_TOKEN
+
+###
+
+# ========================================
+# GRAPHQL ENDPOINT
+# ========================================
+
+### Direct GraphQL Query
+POST http://localhost:3000/graphql
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+
+{
+  "query": "query GetNotes($title: String, $page: Int, $limit: Int) { notes(title: $title, page: $page, limit: $limit) { notes { id title content owner { id email isVerified } createdAt updatedAt } totalCount currentPage totalPages hasNextPage hasPrevPage } }",
+  "variables": {
+    "title": "meeting",
+    "page": 1,
+    "limit": 10
+  }
+}
+
+###
+
+# ========================================
+# TESTING NOTES
+# ========================================
+
+# 1. Replace YOUR_JWT_TOKEN with the actual token received from login
+# 2. Replace 60d5ecb74b24a1234567890a with actual note IDs
+# 3. For file upload, replace [your-image-file] with actual file path
+# 4. Use ### to separate requests in most HTTP client extensions
+# 5. You can click the "Send Request" button above each request to test it
